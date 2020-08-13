@@ -11,11 +11,11 @@ namespace Ferreteria.Model.Modelos
     [BsonIgnoreExtraElements]
     public class CTelefono
     {
-        [BsonElement("Lugar")]
-        public string Lugar { get; set; }
-        
-        [BsonElement("Numero")]
-        public string Numero { get; set; }
+        [BsonElement("Casa")]
+        public string Casa { get; set; }
+
+        [BsonElement("Celular")]
+        public string Celular { get; set; }
 
         /*Es necesario?*/
         [BsonExtraElements]

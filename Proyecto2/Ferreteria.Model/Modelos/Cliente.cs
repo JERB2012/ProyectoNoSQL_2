@@ -29,7 +29,7 @@ namespace Ferreteria.Model.Modelos
 
         [BsonElement("Telefono")]
         //public ContactoTelefonico[] LosContactos { get; set; }
-        public IList<CTelefono> Contactos { get; set; }
+        public CTelefono CTelefono { get; set; }
 
         [BsonElement("Email")]
         public string Email { get; set; }

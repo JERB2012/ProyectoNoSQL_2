@@ -27,6 +27,14 @@ namespace Proyecto2
                     case "3":
                         ListarOrdenes();
                         break;
+                    case "4":
+                        InsertarCliente();
+                        break;
+                    case "5":
+                        ActualizarCliente();
+                        break;
+                    default:
+                        break;
                     default:
                         break;
                 }
@@ -40,6 +48,7 @@ namespace Proyecto2
             Console.WriteLine("1.Listar Clientes.");
             Console.WriteLine("2.Listar Inventario.");
             Console.WriteLine("3.Listar Ordenes.");
+            Console.WriteLine("4.Insertar Cliente.");
             Console.WriteLine("X.Salir");
         }
 
@@ -126,6 +135,37 @@ namespace Proyecto2
                 Console.WriteLine("No hay Ordenes.");
         }
 
-        
+        private void InsertarCliente()
+        {
+            Console.Write("Digite el nombre del cliente: ");
+            var elNombre = Console.ReadLine();
+            Console.Write("Digite la Provincia del cliente: ");
+            var laProvincia = Console.ReadLine();
+            Console.Write("Digite el canton del cliente: ");
+            var elCanton = Console.ReadLine();
+            Console.Write("Digite el distrito del cliente: ");
+            var elDistrito = Console.ReadLine();
+            Console.Write("Digite el telefono de casa: ");
+            var elTelefonoCasa = Console.ReadLine();
+            Console.Write("Digite el celular: ");
+            var elTelefonoCelular = Console.ReadLine();
+            Console.Write("Digite el correo del cliente: ");
+            var elCorreo = Console.ReadLine();
+
+
+            var elCliente = new Cliente();
+            elCliente.Nombre = elNombre;
+            elCliente.CDireccion = new CDireccion();
+            elCliente.CDireccion.Provincia = laProvincia;
+            elCliente.CDireccion.Canton = elCanton;
+            elCliente.CDireccion.Distrito = elDistrito;
+            elCliente.CTelefono = new CTelefono();
+            elCliente.CTelefono.Casa = elTelefonoCasa;
+            elCliente.CTelefono.Celular = elTelefonoCelular;
+            elCliente.Email = elCorreo;
+            var client = new Ferreteria.AccesoADatos.Conexion();
+            client.InsertarCliente(elCliente);
+
+        }
     }
 }
