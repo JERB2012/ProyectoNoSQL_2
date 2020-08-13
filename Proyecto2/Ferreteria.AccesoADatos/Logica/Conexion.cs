@@ -47,5 +47,12 @@ namespace Ferreteria.AccesoADatos
             return elResultado;
         }
 
+        public void InsertarCliente(Cliente elCliente)
+        {
+            var laBaseDeDatos = ConectarBD();
+            var collection = laBaseDeDatos.GetCollection<Cliente>("clientes");
+            collection.InsertOne(elCliente);
+        }
+
     }
 }

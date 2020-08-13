@@ -35,8 +35,6 @@ namespace Proyecto2
                         break;
                     default:
                         break;
-                    default:
-                        break;
                 }
             }
 
