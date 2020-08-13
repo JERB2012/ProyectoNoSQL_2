@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Proyecto2",
+    "\\Proyecto2\\Ferreteria.AccesoADatos",
+    "\\Proyecto2\\Ferreteria.Model",
+    "\\Proyecto2\\Proyecto2\\Core",
+    "\\Proyecto2\\Proyecto2\\Properties"
   ],
   "PreviewInSolutionExplorer": false
 }
