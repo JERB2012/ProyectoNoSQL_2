@@ -10,8 +10,14 @@ namespace Proyecto2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Proyecto 2:");
-            Console.ReadLine();
+            DoJob();
+            
+        }
+
+        static void DoJob()
+        {
+            var elTrabajador = new Trabajador();
+            elTrabajador.Trabajo01();
         }
     }
 }
