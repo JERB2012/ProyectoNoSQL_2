@@ -29,6 +29,15 @@ namespace Ferreteria.AccesoADatos
             return elResultado;
         }
 
+        public IList<Cliente> ListarClientesPorNombre(string elNombreDelCliente)
+        {
+            var laBaseDeDatos = ConectarBD();
+            var collection = laBaseDeDatos.GetCollection<Cliente>("clientes");
+            var expresssionFilter = Builders<Cliente>.Filter.Regex(x => x.Nombre, elNombreDelCliente);
+            var elResultado = collection.Find(expresssionFilter).ToList();
+            return elResultado;
+        }
+
         public IList<Inventario> ListarInventario()
         {
             var laBaseDeDatos = ConectarBD();
@@ -52,6 +61,15 @@ namespace Ferreteria.AccesoADatos
             var laBaseDeDatos = ConectarBD();
             var collection = laBaseDeDatos.GetCollection<Cliente>("clientes");
             collection.InsertOne(elCliente);
+        }
+
+        public void ActualizarNombreDeCliente(ObjectId elIdDelCliente, string elNuevoNombre)
+        {
+            var laBaseDeDatos = ConectarBD();
+            var collection = laBaseDeDatos.GetCollection<Cliente>("clientes");
+            var filter = Builders<Cliente>.Filter.Eq("_id", elIdDelCliente);
+            var update = Builders<Cliente>.Update.Set("Nombre", elNuevoNombre);
+            collection.UpdateOne(filter, update);
         }
 
     }

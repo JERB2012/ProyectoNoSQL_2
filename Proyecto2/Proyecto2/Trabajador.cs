@@ -31,7 +31,7 @@ namespace Proyecto2
                         InsertarCliente();
                         break;
                     case "5":
-                        ActualizarCliente();
+                        CambiarNombreCliente();
                         break;
                     default:
                         break;
@@ -47,6 +47,7 @@ namespace Proyecto2
             Console.WriteLine("2.Listar Inventario.");
             Console.WriteLine("3.Listar Ordenes.");
             Console.WriteLine("4.Insertar Cliente.");
+            Console.WriteLine("5.Cambiar Nombre Cliente.");
             Console.WriteLine("X.Salir");
         }
 
@@ -68,11 +69,12 @@ namespace Proyecto2
             if (ListaCliente.Count > 0)
             {
                 Console.WriteLine("Lista de todos los Clientes:");
+                var contador = 0;
                 foreach (var cliente in ListaCliente)
                 {
                     Console.WriteLine(string.Format(
-                        "Id: {2}; Nombre: {0}; Direccion: {1};", 
-                        cliente.Nombre, cliente.CDireccion.Provincia, cliente.ClienteId.ToString() 
+                        "Cliente número {3}: Id: {2}; Nombre: {0}; Direccion: {1};", 
+                        cliente.Nombre, cliente.CDireccion.Provincia, cliente.ClienteId.ToString(), contador++.ToString()
                         /*cliente.Contactos.ToString().Join*/));/*****<------Cambiar por se array***/
                 }
             }
@@ -165,5 +167,39 @@ namespace Proyecto2
             client.InsertarCliente(elCliente);
 
         }
+
+
+        private void CambiarNombreCliente()
+        {
+            Console.Write("Digite el nombre del Cliente: ");
+            var elNombreDelCliente = Console.ReadLine();
+            var client = new Ferreteria.AccesoADatos.Conexion();
+            var laListaDeClientes = client.ListarClientesPorNombre(elNombreDelCliente);
+            ImprimirListadoDeClientes(laListaDeClientes);
+            Console.Write("Seleccione el número del clientes cuyo nombre desea cambiar: ");
+            var elClienteSeleccionado = Console.ReadLine();
+            var elNumeroDeCliente = 0;
+            if (int.TryParse(elClienteSeleccionado, out elNumeroDeCliente))
+            {
+                if (elNumeroDeCliente >= 0 && elNumeroDeCliente < laListaDeClientes.Count)
+                {
+                    var elRegistroDeClientes = laListaDeClientes[elNumeroDeCliente];
+                    Console.Write(string.Format("El nombre actual del cliente es [{0}]. Digite el nuevo nombre: ", elRegistroDeClientes.Nombre));
+                    var elNuevoNombreDelCliente = Console.ReadLine();
+                    client.ActualizarNombreDeCliente(elRegistroDeClientes.ClienteId, elNuevoNombreDelCliente);
+                }
+            }
+        }
+
+        private void ListeClientePorNombre()
+        {
+            Console.Write("Digite el nombre del cliente: ");
+            var elNombreDelCliente = Console.ReadLine();
+            var client = new Ferreteria.AccesoADatos.Conexion();
+            var laListaDeClientes = client.ListarClientesPorNombre(elNombreDelCliente);
+            ImprimirListadoDeClientes(laListaDeClientes);
+        }
+
+
     }
 }
