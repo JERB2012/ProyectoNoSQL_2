@@ -33,6 +33,21 @@ namespace Proyecto2
                     case "5":
                         CambiarNombreCliente();
                         break;
+                    case "6":
+                        //Eliminar Aqui
+                        break;
+                    case "7":
+                        ListeClientePorProvincia();
+                        break;
+                    case "8":
+                        ListeProductoPorProveedor();
+                        break;
+                    case "9":
+                        //Consulta 1 de Guilermo
+                        break;
+                    case "10":
+                        //Consulta 2 de Guillermo
+                        break;
                     default:
                         break;
                 }
@@ -48,6 +63,12 @@ namespace Proyecto2
             Console.WriteLine("3.Listar Ordenes.");
             Console.WriteLine("4.Insertar Cliente.");
             Console.WriteLine("5.Cambiar Nombre Cliente.");
+            //Los comentarios para los de Guillermo (Borrarlos al terminar)
+            //Console.WriteLine("6.Eliminar Un Cliente."); 
+            Console.WriteLine("7.Listar Direccion de Cliente Por Provincia. ");
+            Console.WriteLine("8.Listar Producto Por Proveedor. ");
+            //Console.WriteLine("9.// ");
+            //Console.WriteLine("10.// ");
             Console.WriteLine("X.Salir");
         }
 
@@ -73,7 +94,7 @@ namespace Proyecto2
                 foreach (var cliente in ListaCliente)
                 {
                     Console.WriteLine(string.Format(
-                        "Cliente número {3}: Id: {2}; Nombre: {0}; Direccion: {1};", 
+                        "Cliente número: {3}; Id: {2}; Nombre: {0}; Direccion: {1};", 
                         cliente.Nombre, cliente.CDireccion.Provincia, cliente.ClienteId.ToString(), contador++.ToString()
                         /*cliente.Contactos.ToString().Join*/));/*****<------Cambiar por se array***/
                 }
@@ -191,13 +212,63 @@ namespace Proyecto2
             }
         }
 
-        private void ListeClientePorNombre()
+        private void ListeClientePorProvincia()
         {
-            Console.Write("Digite el nombre del cliente: ");
-            var elNombreDelCliente = Console.ReadLine();
+            Console.Write("Digite la Provincia a Consultar: ");
+            var LaProvincia = Console.ReadLine();
             var client = new Ferreteria.AccesoADatos.Conexion();
-            var laListaDeClientes = client.ListarClientesPorNombre(elNombreDelCliente);
-            ImprimirListadoDeClientes(laListaDeClientes);
+            var laListaDeClientes = client.ListarClientesPorProvincia(LaProvincia);
+            ImprimirListadoDireccion(laListaDeClientes);
+        }
+
+        private void ImprimirListadoDireccion(IList<Cliente> ListaCliente)
+        {
+            if (ListaCliente.Count > 0)
+            {
+                Console.WriteLine("Lista de los Clientes:");
+                var contador = 0;
+                foreach (var cliente in ListaCliente)
+                {
+                    Console.WriteLine(string.Format(
+                        "Cliente número: {0};Nombre: {1}; Canton: {2}; Distrito: {3};",
+                        contador++.ToString(),cliente.Nombre, 
+                        cliente.CDireccion.Canton, cliente.CDireccion.Distrito
+                        ));
+
+                }
+            }
+            else
+                Console.WriteLine("No se encontró ningún Cliente.");
+        }
+
+        private void ListeProductoPorProveedor()
+        {
+            Console.Write("Digite el Proveedor a Consultar: ");
+            var ElProveedor = Console.ReadLine();
+            var client = new Ferreteria.AccesoADatos.Conexion();
+            var laListaDeProductos = client.ListarProductosPorProveedor(ElProveedor);
+            ImprimirListadoProductosPorProv(laListaDeProductos);
+        }
+
+        private void ImprimirListadoProductosPorProv(IList<Inventario> laListaDeProductos)
+        {
+            if (laListaDeProductos.Count > 0)
+            {
+                Console.WriteLine("Lista de los Productos:");
+                var contador = 0;
+                foreach (var prod in laListaDeProductos)
+                {
+                    Console.WriteLine(string.Format(
+                        "Codigo: {0};Nombre: {1}; Medida: {2}; Precio: {3}; Cantidad: {4};",
+                        prod.Producto.Codigo, prod.Producto.Nombre,
+                        prod.Producto.Medida , prod.Producto.Precio,
+                        prod.Producto.Cantidad
+                        ));
+
+                }
+            }
+            else
+                Console.WriteLine("No se encontró ningún Cliente.");
         }
 
 

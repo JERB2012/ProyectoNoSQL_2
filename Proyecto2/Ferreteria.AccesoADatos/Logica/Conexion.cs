@@ -72,5 +72,22 @@ namespace Ferreteria.AccesoADatos
             collection.UpdateOne(filter, update);
         }
 
+        public IList<Cliente> ListarClientesPorProvincia(string LaProv)
+        {
+            var laBaseDeDatos = ConectarBD();
+            var collection = laBaseDeDatos.GetCollection<Cliente>("clientes");
+            var expresssionFilter = Builders<Cliente>.Filter.Regex(x => x.CDireccion.Provincia, LaProv);
+            var elResultado = collection.Find(expresssionFilter).ToList();
+            return elResultado;
+        }
+
+        public IList<Inventario> ListarProductosPorProveedor(string Prove)
+        {
+            var laBaseDeDatos = ConectarBD();
+            var collection = laBaseDeDatos.GetCollection<Inventario>("inventario");
+            var expresssionFilter = Builders<Inventario>.Filter.Regex(x => x.Proveedor.Nombre, Prove);
+            var elResultado = collection.Find(expresssionFilter).ToList();
+            return elResultado;
+        }
     }
 }
