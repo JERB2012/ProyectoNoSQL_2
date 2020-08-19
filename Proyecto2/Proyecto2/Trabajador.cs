@@ -313,7 +313,10 @@ namespace Proyecto2
                     var confirmacion = Console.ReadLine().ToUpper();
                     if (confirmacion=="SI")
                     {
-                        client.BorrarCliente(elRegistroDeClientes.ClienteId.ToString());
+                        client.BorrarCliente(elRegistroDeClientes.Nombre);
+                        Console.WriteLine("\n");
+                        Console.Write("El cliente ha sido eliminado");
+                        Console.WriteLine("\n");
                     }
                     else
                     {
