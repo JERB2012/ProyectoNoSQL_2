@@ -34,7 +34,7 @@ namespace Proyecto2
                         CambiarNombreCliente();
                         break;
                     case "6":
-                        //Eliminar Aqui
+                        EliminarCliente();
                         break;
                     case "7":
                         ListeClientePorProvincia();
@@ -43,10 +43,10 @@ namespace Proyecto2
                         ListeProductoPorProveedor();
                         break;
                     case "9":
-                        //Consulta 1 de Guilermo
+                        ListarProductosPorLocal();
                         break;
                     case "10":
-                        //Consulta 2 de Guillermo
+                        ListarProductosMayoresA();
                         break;
                     default:
                         break;
@@ -54,6 +54,8 @@ namespace Proyecto2
             }
 
         }
+
+
 
         private void DesplegarMenu()
         {
@@ -63,12 +65,11 @@ namespace Proyecto2
             Console.WriteLine("3.Listar Ordenes.");
             Console.WriteLine("4.Insertar Cliente.");
             Console.WriteLine("5.Cambiar Nombre Cliente.");
-            //Los comentarios para los de Guillermo (Borrarlos al terminar)
-            //Console.WriteLine("6.Eliminar Un Cliente."); 
+            Console.WriteLine("6.Eliminar Un Cliente."); 
             Console.WriteLine("7.Listar Direccion de Cliente Por Provincia. ");
             Console.WriteLine("8.Listar Producto Por Proveedor. ");
-            //Console.WriteLine("9.// ");
-            //Console.WriteLine("10.// ");
+            Console.WriteLine("9.Listar Productos Por Local.");
+            Console.WriteLine("10.Listar Productos con Cantidades superior a.");
             Console.WriteLine("X.Salir");
         }
 
@@ -241,6 +242,25 @@ namespace Proyecto2
                 Console.WriteLine("No se encontró ningún Cliente.");
         }
 
+        private void ImprimirListadoInventario(IList<Inventario> ListaInventario)
+        {
+            if (ListaInventario.Count > 0)
+            {
+                Console.WriteLine("Lista de Inventario:");
+                var contador = 0;
+                foreach (var inventario in ListaInventario)
+                {
+                    Console.WriteLine(string.Format(
+                        "Producto Numero: {0};Producto: {1}; Proveedor: {2}; Cantidad: {3}",
+                        contador++.ToString(), inventario.Producto.Nombre,
+                        inventario.Proveedor.Contacto, inventario.Producto.Cantidad
+                        ));
+
+                }
+            }
+            else
+                Console.WriteLine("No se encontró ningún producto con disponibilidad.");
+        }
         private void ListeProductoPorProveedor()
         {
             Console.Write("Digite el Proveedor a Consultar: ");
@@ -270,7 +290,70 @@ namespace Proyecto2
             else
                 Console.WriteLine("No se encontró ningún Cliente.");
         }
+        private void EliminarCliente()
+        {
+            Console.Clear();
+            Console.Write("Digite el nombre del Cliente: ");
+            var elNombreDelCliente = Console.ReadLine();
+            var client = new Ferreteria.AccesoADatos.Conexion();
 
+            var laListaDeClientes = client.ListarClientesPorNombre(elNombreDelCliente);
+            ImprimirListadoDeClientes(laListaDeClientes);
 
+            Console.Write("Seleccione el número del cliente cuyo nombre desea cambiar: ");
+            var elClienteSeleccionado = Console.ReadLine();
+            var elNumeroDeCliente = 0;
+
+            if (int.TryParse(elClienteSeleccionado, out elNumeroDeCliente))
+            {
+                if (elNumeroDeCliente >= 0 && elNumeroDeCliente < laListaDeClientes.Count)
+                {
+                    var elRegistroDeClientes = laListaDeClientes[elNumeroDeCliente];
+                    Console.Write(string.Format("Seguro que desea eliminar el usuario [{0},{1}] Si o No.", elRegistroDeClientes.Nombre, elRegistroDeClientes.Email));
+                    var confirmacion = Console.ReadLine().ToUpper();
+                    if (confirmacion=="SI")
+                    {
+                        client.BorrarCliente(elRegistroDeClientes.ClienteId.ToString());
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n");
+                        Console.Write("La operacion de borrado ha sido cancelada");
+                        Console.WriteLine("\n");
+
+                    }
+                    Console.WriteLine("\n");
+                    Console.Write("-----Fin de la Operacion------ Presione cualquier tecla para salir");
+                    Console.ReadKey();
+                    Console.Clear();
+                   
+                }
+            }
+        }
+
+        private void ListarProductosPorLocal()
+        {
+            Console.Write("Ingrese el local que desea consultar: ");
+            var Local = Console.ReadLine();
+            var client = new Ferreteria.AccesoADatos.Conexion();
+            var laListaDeInventario = client.ListarProductosPorLocal(Local);
+            ImprimirListadoInventario(laListaDeInventario);
+        }
+
+        private void ListarProductosMayoresA()
+        {
+            Console.Clear();
+            Console.Write("Digite la cantidad de producto en inventario:  ");
+            Console.Write("\n");
+            var Cantidad = Console.ReadLine();
+            var client = new Ferreteria.AccesoADatos.Conexion();
+            var laListaDeInventario = client.ListarProductosMayoresA(Cantidad);
+            Console.Write("\n");
+            ImprimirListadoInventario(laListaDeInventario);
+            Console.WriteLine("\n");
+            Console.Write("-----Fin de la Operacion------ Presione cualquier tecla para salir");
+            Console.ReadKey();
+            Console.Clear();
+        }
     }
 }
